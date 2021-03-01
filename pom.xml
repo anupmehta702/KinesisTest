@@ -32,6 +32,12 @@
             <artifactId>commons-logging</artifactId>
             <version>1.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.amazonaws/dynamodb-streams-kinesis-adapter -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>dynamodb-streams-kinesis-adapter</artifactId>
+            <version>1.5.2</version>
+        </dependency>
     </dependencies>
 
 
