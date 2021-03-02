@@ -1,4 +1,4 @@
-package com.anup.kinesis.cdc.consumer;
+package com.anup.kinesis.cdc.consumer.V2;
 
 import software.amazon.kinesis.processor.ShardRecordProcessor;
 import software.amazon.kinesis.processor.ShardRecordProcessorFactory;

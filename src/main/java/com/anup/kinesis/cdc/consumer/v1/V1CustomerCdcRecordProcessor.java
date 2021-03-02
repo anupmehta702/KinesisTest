@@ -1,4 +1,4 @@
-package com.anup.kinesis.cdc.consumer.iRecordProcessor;
+package com.anup.kinesis.cdc.consumer.v1;
 
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.streamsadapter.model.RecordAdapter;
@@ -13,7 +13,7 @@ import com.anup.kinesis.model.Customer;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-public class CustomerCdcRecordProcessor implements IRecordProcessor {
+public class V1CustomerCdcRecordProcessor implements IRecordProcessor {
     private Integer checkpointCounter;
 
     @Override

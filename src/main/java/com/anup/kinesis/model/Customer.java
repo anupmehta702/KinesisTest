@@ -1,9 +1,16 @@
 package com.anup.kinesis.model;
 
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import com.amazonaws.services.dynamodbv2.model.StreamRecord;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 
 public class Customer {
@@ -53,6 +60,26 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public static Customer setData(StreamRecord record){
+        Customer customer = new Customer();
+        Map<String,AttributeValue> updatedMap = record.getNewImage() != null ? record.getNewImage() : record.getOldImage();
+
+        updatedMap.forEach((key,value)-> {
+            try {
+                String variable = key.substring(0, 1).toUpperCase() + key.substring(1);
+                Method setterMethod = Customer.class.getDeclaredMethod("set"+variable,String.class);
+                setterMethod.invoke(customer,value.getS());
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        });
+        return customer;
     }
 
     @Override

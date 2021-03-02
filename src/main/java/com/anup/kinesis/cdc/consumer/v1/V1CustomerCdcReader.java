@@ -1,4 +1,4 @@
-package com.anup.kinesis.cdc.consumer;
+package com.anup.kinesis.cdc.consumer.v1;
 
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.regions.Regions;
@@ -13,17 +13,14 @@ import com.amazonaws.services.dynamodbv2.streamsadapter.StreamsWorkerFactory;
 import com.amazonaws.services.kinesis.clientlibrary.lib.worker.InitialPositionInStream;
 import com.amazonaws.services.kinesis.clientlibrary.lib.worker.KinesisClientLibConfiguration;
 import com.amazonaws.services.kinesis.clientlibrary.lib.worker.Worker;
-import com.anup.kinesis.cdc.consumer.iRecordProcessor.CustomerCdcRecordFactory;
-import software.amazon.awssdk.services.kinesis.KinesisAsyncClient;
-import software.amazon.kinesis.coordinator.Scheduler;
 
-public class CustomerCdcReader {
+public class V1CustomerCdcReader {
     private Regions region = Regions.US_EAST_2;
     private String streamName = "CustomerCdcStream";
-    private String applicationName = "customer-cdc-reader-processor";
+    private String applicationName = "v1-customer-cdc-reader-processor";
     private String streamArn = "arn:aws:kinesis:us-east-2:406556759297:stream/CustomerCdcStream";
 
-    public CustomerCdcReader() throws InterruptedException {
+    public V1CustomerCdcReader() throws InterruptedException {
         setup();
     }
 
@@ -33,7 +30,7 @@ public class CustomerCdcReader {
         AmazonCloudWatch cloudWatchClient = AmazonCloudWatchClientBuilder.standard()
                 .withRegion(region)
                 .build();
-        CustomerCdcRecordFactory iRecordProcessor = new CustomerCdcRecordFactory();
+        V1CustomerCdcRecordFactory iRecordProcessor = new V1CustomerCdcRecordFactory();
 
         AmazonDynamoDBStreams dynamoDBStreamsClient = AmazonDynamoDBStreamsClientBuilder.standard()
                 .withRegion(Regions.US_EAST_2)
@@ -61,39 +58,12 @@ public class CustomerCdcReader {
         worker.shutdown();
         t.join();
 
-        /*ConfigsBuilder configsBuilder = new
-                ConfigsBuilder(streamName, applicationName, kinesisAsyncClient, dynamoClient,
-                cloudWatchClient, UUID.randomUUID().toString(), iRecordProcessor);
-
-         scheduler = new Scheduler(
-                configsBuilder.checkpointConfig(),
-                configsBuilder.coordinatorConfig(),
-                configsBuilder.leaseManagementConfig(),
-                configsBuilder.lifecycleConfig(),
-                configsBuilder.metricsConfig(),
-                configsBuilder.processorConfig(),
-                configsBuilder.retrievalConfig()
-        );
-*/
 
     }
 
-    /*public void startReading() {
-        int exitCode = 0;
-        try {
-            System.out.println("Started reading data from stream -" + streamName);
-            scheduler.run();
-        } catch (Throwable t) {
-            System.out.println("Caught throwable while processing data." + t);
-            exitCode = 1;
-        }
-        System.exit(exitCode);
-
-    }*/
 
     public static void main(String[] args) throws InterruptedException {
         System.out.println("Starting Consumer for CDC stream ...");
-        CustomerCdcReader reader = new CustomerCdcReader();
-        //reader.startReading();
+        V1CustomerCdcReader reader = new V1CustomerCdcReader();
     }
 }
