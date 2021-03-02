@@ -45,7 +45,7 @@ public class CDCSerializer {
                 .replace("SizeBytes","sizeBytes")
                 .replace("\"S\"","\"s\"");
         Record record = JSON.readValue(newData, Record.class);
-        System.out.println("Serialzing record of type - "+record.getEventName());
+        System.out.println("Serializing record of type - "+record.getEventName());
         return Customer.setData(record.getDynamodb());
     }
 
