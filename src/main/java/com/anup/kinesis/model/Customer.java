@@ -4,15 +4,18 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.StreamRecord;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.*;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
-
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Customer {
     private final static ObjectMapper JSON = new ObjectMapper();
     static {
@@ -22,23 +25,7 @@ public class Customer {
     private String name;
     private String email;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public byte[] toJsonAsBytes() {
+        public byte[] toJsonAsBytes() {
         try {
             return JSON.writeValueAsBytes(this);
         } catch (IOException e) {
@@ -54,13 +41,6 @@ public class Customer {
         }
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public static Customer setData(StreamRecord record){
         Customer customer = new Customer();
@@ -82,12 +62,12 @@ public class Customer {
         return customer;
     }
 
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+
+    public static List<Customer> getCustomers() {
+        List<Customer> customerList = new ArrayList<>();
+        customerList.add(new Customer("1","Anup","anupmehta702@gmail.com"));
+        customerList.add(new Customer("2","abc","abc@gmail.com"));
+        customerList.add(new Customer("3","def","def@gmail.com"));
+        return customerList;
     }
 }

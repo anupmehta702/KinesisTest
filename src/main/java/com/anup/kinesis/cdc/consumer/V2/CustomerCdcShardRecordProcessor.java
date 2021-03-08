@@ -5,6 +5,8 @@ import com.amazonaws.services.dynamodbv2.streamsadapter.model.RecordAdapter;
 import com.anup.kinesis.cdc.consumer.CDCData;
 import com.anup.kinesis.cdc.consumer.CDCSerializer;
 import com.anup.kinesis.model.Customer;
+import com.anup.kinesis.s3.BucketOperation;
+import com.anup.kinesis.s3.CSVWriter;
 import software.amazon.kinesis.exceptions.InvalidStateException;
 import software.amazon.kinesis.exceptions.ShutdownException;
 import software.amazon.kinesis.exceptions.ThrottlingException;
@@ -21,30 +23,11 @@ import java.util.Map;
 public class CustomerCdcShardRecordProcessor implements ShardRecordProcessor {
     private String shardId;
     private final CharsetDecoder decoder = Charset.forName("UTF-8").newDecoder();
-
     @Override
     public void initialize(InitializationInput initializationInput) {
         System.out.println("Initializing record processor for shardId -- " + initializationInput.shardId());
     }
 
-
-    /*
-    INSERT
-    {"awsRegion":"us-east-2","dynamodb":{"ApproximateCreationDateTime":1614669851662,
-    "Keys":{"id":{"S":"3"},"name":{"S":"ABC"}},
-    "NewImage":{"email":{"S":"abc@email.com"},"id":{"S":"3"},"name":{"S":"ABC"}},"SizeBytes":38},
-    "eventID":"273538ad-fc6e-453c-90d5-999d2399375d",
-    "eventName":"INSERT","userIdentity":null,"recordFormat":"application/json",
-    "tableName":"customer","eventSource":"aws:dynamodb"}
-    UPDATE
-    {"awsRegion":"us-east-2","dynamodb":{"ApproximateCreationDateTime":1614669922526,
-    "Keys":{"id":{"S":"3"},"name":{"S":"ABC"}},
-    "NewImage":{"email":{"S":"abc123@email.com"},"id":{"S":"3"},"name":{"S":"ABC"}},
-    "OldImage":{"email":{"S":"abc@email.com"},"id":{"S":"3"},"name":{"S":"ABC"}},"SizeBytes":69},
-    "eventID":"b2945a3e-239e-4c49-8978-bb96c843bee8","eventName":"MODIFY","userIdentity":null,
-    "recordFormat":"application/json",
-    "tableName":"customer","eventSource":"aws:dynamodb"}
-     */
     @Override
     public void processRecords(ProcessRecordsInput processRecordsInput) {
         System.out.println("Processing " + processRecordsInput.records().size() + " record(s)");
@@ -54,6 +37,8 @@ public class CustomerCdcShardRecordProcessor implements ShardRecordProcessor {
                 System.out.println("Printing data in string format  -->" + data);
                  Customer customer = CDCSerializer.serializeIntoCustomer(data);
                 System.out.println("Processed data -->"+customer);
+                CSVWriter.writeToCSVFile(customer);
+                BucketOperation.putObject();
             } catch (Exception ex) {
                 System.out.println("Exception while reading record -- " + ex.getMessage());
                 ex.printStackTrace();

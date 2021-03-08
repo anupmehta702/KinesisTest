@@ -10,7 +10,8 @@ import java.io.IOException;
 
 /*
     INSERT
-    {"awsRegion":"us-east-2","dynamodb":{"ApproximateCreationDateTime":1614669851662,
+    {"awsRegion":"us-east-2","dynamodb":{
+    "ApproximateCreationDateTime":1614669851662,
     "Keys":{"id":{"S":"3"},"name":{"S":"ABC"}},
     "NewImage":{"email":{"S":"abc@email.com"},"id":{"S":"3"},"name":{"S":"ABC"}},"SizeBytes":38},
     "eventID":"273538ad-fc6e-453c-90d5-999d2399375d",
@@ -30,6 +31,23 @@ import java.io.IOException;
     "OldImage":{"email":{"S":"anoop@email.com"},"id":{"S":"2"},"name":{"S":"Anoop"}},"SizeBytes":44}
     ,"eventID":"b8d3bbb3-3971-4331-ae2a-d095f842da38","eventName":"REMOVE","userIdentity":null
     ,"recordFormat":"application/json","tableName":"customer","eventSource":"aws:dynamodb"}
+
+    {
+    "awsRegion":"us-east-2",
+    "dynamodb":{
+    "ApproximateCreationDateTime":1614669851662,
+    "Keys":{"id":{"S":"3"},"name":{"S":"ABC"}},
+    "NewImage":{"email":{"S":"abc@email.com"},"id":{"S":"3"},"name":{"S":"ABC"}},
+    "SizeBytes":38
+    },
+    "eventID":"273538ad-fc6e-453c-90d5-999d2399375d",
+    "eventName":"INSERT",
+    "userIdentity":null,
+    "recordFormat":"application/json",
+    "tableName":"customer",
+    "eventSource":"aws:dynamodb"
+}
+
      */
 public class CDCSerializer {
     private static ObjectMapper JSON = new ObjectMapper();

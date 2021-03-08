@@ -54,6 +54,14 @@
             <version>1.18.16</version>
         </dependency>
 
+        <!-- For generating csv file -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.8</version>
+        </dependency>
+
+
     </dependencies>
 
 
