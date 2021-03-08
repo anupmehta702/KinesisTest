@@ -7,13 +7,14 @@ Reflection -- http://tutorials.jenkov.com/java-json/jackson-objectmapper.html#re
 
 CDC -- https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.KCLAdapter.Walkthrough.html 
 
-**Steps to run **
+**Steps to run Kinesis producer consumer using KCL KPL library**
 <br /> 1. Create a user on AWS and ensure he has Kinesis full access. Copy the accessKey and secretKey and configure it in aws cli using "aws configure"
 <br /> 2. Create a stream called "StockRecordStream"
 <br /> 3. Run StockTradeWriter to produce a record
 <br /> 4. Run StockTradeReaderConfiguration to consume the message sent in step 2
 
-** Steps to run for CDC **
+**Steps to run CDC related code**
+**Aim** - Generate CDC events for a DynamoDB table and insert into into a S3 bucket
 <br /> 1. Create a table called "customer" in DynamoDB
 <br /> 2. Create a Kinesis data stream named "CustomerCdcStream"
 <br /> 3. Also create an S3 bucket named "anupmehts702". This the bucket where it would create a file and insert CDC content of "customer" table
